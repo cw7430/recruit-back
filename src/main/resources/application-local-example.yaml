@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@127.0.0.1:1521:ORCL
+    username: RECRUIT
+    password: # DB password
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations:
+      - classpath:db/migration
+
+jwt:
+  access:
+    secret: # jwt access token secret key
+    expiration: 30m
+  refresh:
+    secret: # jwt refresh token secret key
+    expiration: 14d
+
+logging:
+  level:
+    p6spy: INFO
