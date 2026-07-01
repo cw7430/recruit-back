@@ -34,7 +34,7 @@ public class EducationRepositoryImpl implements BatchJdbcRepository<EducationReq
                 	EDU_SEQ, REC_SEQ, SCHOOL_NAME, SCHOOL_TYPE, DIVISION,
                 	START_PERIOD, END_PERIOD, MAJOR, GRADE, LOC_SEQ
                 	)
-                VALUES ( +
+                VALUES (
                 	SEQ_EDUCATION.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?
                 	)
                 """;
