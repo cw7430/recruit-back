@@ -1,6 +1,7 @@
 package com.recruit.module.recurit.entity;
 
 import com.recruit.module.recurit.entity.type.Gender;
+import com.recruit.module.recurit.entity.type.Submit;
 import com.recruit.module.recurit.entity.type.WorkType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -33,7 +34,7 @@ public class Recruit {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name="PASSWORD_HASH")
+    @Column(name = "PASSWORD_HASH")
     private String passwordHash;
 
     @Column(name = "BIRTH")
@@ -61,8 +62,9 @@ public class Recruit {
     @Column(name = "WORK_TYPE")
     private WorkType workType = null;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "SUBMIT")
-    private String submit = "N";
+    private Submit submit = Submit.N;
 
     @OneToMany(mappedBy = "recruit")
     private List<Education> educationList = new ArrayList<>();
@@ -78,11 +80,11 @@ public class Recruit {
         recruit.name = name;
         recruit.phone = phone;
         recruit.passwordHash = passwordHash;
-        recruit.submit = "N";
+        recruit.submit = Submit.N;
         return recruit;
     }
 
-    public void updateInfo(LocalDate birth, Gender gender, String email, String address, Location location, WorkType workType, String submit) {
+    public void updateInfo(LocalDate birth, Gender gender, String email, String address, Location location, WorkType workType, Submit submit) {
         this.birth = birth;
         this.gender = gender;
         this.email = email;

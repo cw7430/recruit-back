@@ -17,7 +17,7 @@ public class CareerRequestDto {
     @Pattern(regexp = "^[가-힣a-zA-Z0-9\\s-]+$", message = "학교명 형식이 올바르지 않습니다.")
     private String compName;
 
-    @NotBlank(message = "회사 지역을 입력해주세요.")
+    @NotNull(message = "회사 지역을 입력해주세요.")
     private Long locSeq;
 
     @NotNull(message = "근무 시작일을 입력해주세요.")
