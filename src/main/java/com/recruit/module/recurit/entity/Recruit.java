@@ -1,5 +1,7 @@
 package com.recruit.module.recurit.entity;
 
+import com.recruit.module.recurit.entity.type.Gender;
+import com.recruit.module.recurit.entity.type.WorkType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "RECRUIT")
@@ -35,8 +39,9 @@ public class Recruit {
     @Column(name = "BIRTH")
     private LocalDate birth = null;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "GENDER")
-    private String gender = null;
+    private Gender gender = null;
 
     @Column(name = "PHONE")
     private String phone;
@@ -48,14 +53,25 @@ public class Recruit {
     @Column(name = "ADDRESS")
     private String address = null;
 
-    @Column(name = "LOCATION")
-    private String location = null;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LOC_SEQ", foreignKey = @ForeignKey(name = "FK_LOCATION_TO_RECRUIT_1"))
+    private Location location = null;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "WORK_TYPE")
-    private String workType = null;
+    private WorkType workType = null;
 
     @Column(name = "SUBMIT")
     private String submit = "N";
+
+    @OneToMany(mappedBy = "recruit")
+    private List<Education> educationList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recruit")
+    private List<Career> careerList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recruit")
+    private List<Certificate> certificateList = new ArrayList<>();
 
     public static Recruit create(String name, String phone, String passwordHash) {
         Recruit recruit = new Recruit();
@@ -66,7 +82,7 @@ public class Recruit {
         return recruit;
     }
 
-    public void updateInfo(LocalDate birth, String gender, String email, String address, String location, String workType, String submit) {
+    public void updateInfo(LocalDate birth, Gender gender, String email, String address, Location location, WorkType workType, String submit) {
         this.birth = birth;
         this.gender = gender;
         this.email = email;

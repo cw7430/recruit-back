@@ -1,6 +1,8 @@
 package com.recruit.module.recurit.entity;
 
 
+import com.recruit.module.recurit.entity.type.Division;
+import com.recruit.module.recurit.entity.type.SchoolType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -35,11 +37,13 @@ public class Education {
     @Column(name = "SCHOOL_NAME")
     private String schoolName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "SCHOOL_TYPE")
-    private String schoolType;
+    private SchoolType schoolType;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "DIVISION")
-    private String division;
+    private Division division;
 
     @Column(name = "START_PERIOD")
     private LocalDate startPeriod;
@@ -53,6 +57,7 @@ public class Education {
     @Column(name = "GRADE")
     private BigDecimal grade;
 
-    @Column(name = "LOCATION")
-    private String location;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LOC_SEQ", foreignKey = @ForeignKey(name = "FK_LOCATION_TO_EDUCATION_1"))
+    private Location location = null;
 }
