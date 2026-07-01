@@ -33,8 +33,9 @@ public class Career {
     @Column(name = "COMP_NAME")
     private String compName;
 
-    @Column(name = "LOCATION")
-    private String location;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LOC_SEQ", foreignKey = @ForeignKey(name = "FK_LOCATION_TO_CAREER_1"))
+    private Location location;
 
     @Column(name = "START_PERIOD")
     private LocalDate startPeriod;
