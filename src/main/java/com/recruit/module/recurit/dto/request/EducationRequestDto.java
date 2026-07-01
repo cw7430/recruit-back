@@ -43,7 +43,7 @@ public class EducationRequestDto {
     @DecimalMax(value = "4.50", message = "학점은 4.5점을 넘을 수 없습니다.")
     private BigDecimal grade;
 
-    @NotBlank(message = "학교 지역을 입력해주세요.")
+    @NotNull(message = "학교 지역을 입력해주세요.")
     private Long locSeq;
 
     @AssertTrue(message = "입학일은 졸업일보다 빨라야 합니다.")
