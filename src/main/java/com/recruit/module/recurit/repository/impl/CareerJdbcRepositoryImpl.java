@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class CareerRepositoryImpl implements BatchJdbcRepository<CareerRequestDto> {
+public class CareerJdbcRepositoryImpl implements BatchJdbcRepository<CareerRequestDto> {
     private final JdbcTemplate jdbcTemplate;
 
     private static int batchReturn(int[][] counts) {

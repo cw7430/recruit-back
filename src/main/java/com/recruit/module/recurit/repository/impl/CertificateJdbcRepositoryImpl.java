@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class CertificateRepositoryImpl implements BatchJdbcRepository<CertificateRequestDto> {
+public class CertificateJdbcRepositoryImpl implements BatchJdbcRepository<CertificateRequestDto> {
     private final JdbcTemplate jdbcTemplate;
 
     private static int batchReturn(int[][] counts) {
