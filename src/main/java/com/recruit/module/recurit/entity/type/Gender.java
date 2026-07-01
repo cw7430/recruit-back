@@ -19,7 +19,7 @@ public enum Gender {
         try {
             return Gender.valueOf(value.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid gender: " + value);
         }
     }
 }
