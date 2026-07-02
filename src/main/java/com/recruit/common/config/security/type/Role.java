@@ -6,16 +6,17 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Role {
-    USER("ROLE_USER"), ADMIN("ROLE_ADMIN"), GUEST("ROLE_GUEST");
+    USER("USER", "ROLE_USER"), ADMIN("ADMIN", "ROLE_ADMIN"), GUEST("GUEST", "ROLE_GUEST");
 
-    private final String role;
+    private final String code;
+    private final String authority;
 
-    public static Role from(String role) {
-        if (role == null || role.isBlank()) {
+    public static Role from(String code) {
+        if (code == null || code.isBlank()) {
             return Role.GUEST;
         }
         try {
-            return Role.valueOf(role.toUpperCase());
+            return Role.valueOf(code.toUpperCase());
         } catch (IllegalArgumentException e) {
             return Role.GUEST;
         }
