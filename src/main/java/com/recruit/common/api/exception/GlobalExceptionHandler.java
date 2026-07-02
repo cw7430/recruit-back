@@ -1,4 +1,4 @@
-package com.recruit.common.api.exeption;
+package com.recruit.common.api.exception;
 
 import com.recruit.common.api.response.ErrorResponseDto;
 import com.recruit.common.api.response.ResponseDto;
@@ -37,12 +37,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ResponseDto> handleCustomException(CustomException ex) {
-        log.error("Custom exception occurred: {}", ex.getResponseCode().getMessage());
+        log.error("Custom exception occurred: {}", ex.getMessage());
+
+        if (ex.getFieldName() != null) {
+            List<ValidationError> errors = List.of(
+                    new ValidationError(ex.getFieldName(), ex.getCustomMessage())
+            );
+
+            return new ResponseEntity<>(
+                    ErrorResponseDto.of(ex.getResponseCode(), errors),
+                    ex.getResponseCode().getStatus()
+            );
+        }
 
         return new ResponseEntity<>(
-                ErrorResponseDto.from(
-                        ex.getResponseCode()
-                ),
+                ErrorResponseDto.from(ex.getResponseCode()),
                 ex.getResponseCode().getStatus()
         );
     }
