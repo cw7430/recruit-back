@@ -2,6 +2,8 @@ package com.recruit.module.recurit.entity.type;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.recruit.common.api.exception.CustomException;
+import com.recruit.common.api.type.ResponseCode;
 
 public enum Gender {
     M, F;
@@ -19,7 +21,11 @@ public enum Gender {
         try {
             return Gender.valueOf(value.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid gender: " + value);
+            throw new CustomException(
+                    ResponseCode.VALIDATION_ERROR,
+                    "gender",
+                    "입력 가능값: M, F, 입력된 값: " + value
+            );
         }
     }
 }
