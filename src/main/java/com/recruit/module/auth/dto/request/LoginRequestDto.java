@@ -1,4 +1,4 @@
-package com.recruit.module.recurit.dto.request;
+package com.recruit.module.auth.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
