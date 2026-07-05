@@ -1,4 +1,4 @@
-package com.recruit.module.recurit.repository.custom;
+package com.recruit.module.recurit.repository.jdbc;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ public sealed abstract class SuccessResponseDto extends ResponseDto
 
     @Getter
     @AllArgsConstructor
-    private static final class Simple extends SuccessResponseDto {
+    protected static final class Simple extends SuccessResponseDto {
         private final String code = ResponseCode.SUCCESS.getCode();
         private final String message = ResponseCode.SUCCESS.getMessage();
     }
@@ -17,7 +17,7 @@ public sealed abstract class SuccessResponseDto extends ResponseDto
 
     @Getter
     @AllArgsConstructor
-    private static final class WithResult<T> extends SuccessResponseDto {
+    protected static final class WithResult<T> extends SuccessResponseDto {
         private final String code = ResponseCode.SUCCESS.getCode();
         private final String message = ResponseCode.SUCCESS.getMessage();
         private final T result;

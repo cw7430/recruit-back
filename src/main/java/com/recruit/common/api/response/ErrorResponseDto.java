@@ -10,14 +10,14 @@ public sealed abstract class ErrorResponseDto extends ResponseDto
 
     @Getter
     @AllArgsConstructor
-    private static final class Simple extends ErrorResponseDto {
+    protected static final class Simple extends ErrorResponseDto {
         private final String code;
         private final String message;
     }
 
     @Getter
     @AllArgsConstructor
-    private static final class WithErrors<T> extends ErrorResponseDto {
+    protected static final class WithErrors<T> extends ErrorResponseDto {
         private final String code;
         private final String message;
         private final T errors;

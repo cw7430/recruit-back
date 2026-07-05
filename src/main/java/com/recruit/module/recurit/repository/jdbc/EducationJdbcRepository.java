@@ -1,7 +1,6 @@
-package com.recruit.module.recurit.repository.impl;
+package com.recruit.module.recurit.repository.jdbc;
 
 import com.recruit.module.recurit.dto.request.EducationRequestDto;
-import com.recruit.module.recurit.repository.custom.BatchJdbcRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class EducationJdbcRepositoryImpl implements BatchJdbcRepository<EducationRequestDto> {
+public class EducationJdbcRepository implements BatchJdbcRepository<EducationRequestDto> {
     private final JdbcTemplate jdbcTemplate;
 
     private static int batchReturn(int[][] counts) {

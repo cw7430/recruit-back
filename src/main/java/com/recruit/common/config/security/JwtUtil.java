@@ -11,6 +11,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
+    private final JwtProvider jwtProvider;
+
+    public JwtUtil(JwtProvider jwtProvider) {
+        this.jwtProvider = jwtProvider;
+    }
+
     public String extractTokenForFilter(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
         if (header == null || header.isBlank()) return null;
@@ -40,13 +46,8 @@ public class JwtUtil {
         return Long.parseLong(authentication.getName());
     }
 
-    public Long extractUserIdFromRefresh(HttpServletRequest request) {
-        Claims claims = (Claims) request.getAttribute("refreshClaims");
-
-        if (claims == null) {
-            throw new CustomException(ResponseCode.UNAUTHORIZED);
-        }
-
+    public Long extractUserIdFromRefresh(String token) {
+        Claims claims = jwtProvider.getClaims(token, true);
         return Long.parseLong(claims.getSubject());
     }
 }
