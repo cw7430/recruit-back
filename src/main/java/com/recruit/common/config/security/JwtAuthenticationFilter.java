@@ -15,7 +15,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -23,6 +22,8 @@ import java.util.List;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
     private final JwtUtil jwtUtil;
+
+    private static final String REFRESH_URI = "/api/v1/auth/refresh";
 
     @Override
     protected void doFilterInternal(
@@ -38,17 +39,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            boolean isRefreshPath = "/api/v1/auth/refresh".equals((request.getRequestURI()));
-            Claims claims = jwtProvider.parseClaims(token, isRefreshPath);
+            boolean isRefreshPath = REFRESH_URI.equals((request.getRequestURI()));
+            Claims claims = jwtProvider.getClaims(token, isRefreshPath);
 
-            if (claims != null) {
-                if (isRefreshPath) {
-                    request.setAttribute("refreshClaims", claims);
-                } else {
-                    setAuthentication(claims);
-                }
+            if (isRefreshPath) {
+                request.setAttribute("refreshClaims", claims);
             } else {
-                request.setAttribute("exception", "INVALID_TOKEN");
+                setAuthentication(claims);
             }
 
         } catch (Exception e) {
@@ -61,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String id = claims.getSubject();
         String roleCode = claims.get("role", String.class);
         Role role = Role.from(roleCode);
-        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role.getAuthority()));
+        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role.getAuthority()));
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(id, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
