@@ -1,10 +1,9 @@
 package com.recruit.common.config.security;
 
+import com.recruit.common.api.exception.CustomException;
+import com.recruit.common.api.type.ResponseCode;
 import com.recruit.common.config.security.type.TokenResponseClaim;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +63,7 @@ public class JwtProvider {
         return new TokenResponseClaim(token, expiry.getTime());
     }
 
-    public Claims parseClaims(String token, Boolean isRefresh) {
+    public Claims getClaims(String token, boolean isRefresh) {
         SecretKey key = isRefresh ? refreshSecretKey : accessSecretKey;
 
         try {
@@ -74,11 +73,9 @@ public class JwtProvider {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (ExpiredJwtException e) {
-            log.debug("JWT expired");
-            return null;
-        } catch (JwtException e) {
-            log.warn("Invalid JWT: {}", e.getMessage());
-            return null;
+            throw new CustomException(ResponseCode.EXPIRED_TOKEN);
+        } catch (MalformedJwtException e) {
+            throw new CustomException(ResponseCode.INVALID_TOKEN);
         }
     }
 }

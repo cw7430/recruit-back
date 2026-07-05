@@ -23,6 +23,8 @@ public enum ResponseCode {
     UNAUTHORIZED("UA", "로그인이 필요합니다.", HttpStatus.UNAUTHORIZED),
     LOGIN_ERROR("LGE", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED),
     PASSWORD_ERROR("PWE", "비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED),
+    EXPIRED_TOKEN("ET", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
+    INVALID_TOKEN("IT", "유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED),
 
     /**
      * 403 Forbidden
