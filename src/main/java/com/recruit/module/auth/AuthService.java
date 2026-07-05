@@ -1,4 +1,4 @@
-package com.recruit.module.auth.dto.request;
+package com.recruit.module.auth;
 
 import com.recruit.module.recurit.repository.RecruitRepository;
 import lombok.RequiredArgsConstructor;
