@@ -1,10 +1,13 @@
 package com.recruit.module.recurit.entity;
 
+import com.recruit.module.recurit.dto.response.LocationResponseDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "LOCATION")
@@ -24,4 +27,11 @@ public class Location {
 
     @Column(name = "LOC_NAME")
     private String locName;
+
+    public static List<LocationResponseDto> toDtoList(List<Location> locationList) {
+        return locationList.stream().map(location -> new LocationResponseDto(
+                location.getLocSeq(),
+                location.getLocName()
+        )).toList();
+    }
 }

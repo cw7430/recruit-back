@@ -14,11 +14,13 @@ import com.recruit.module.recurit.repository.jpa.RecruitRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final RecruitRepository recruitRepository;
     private final JwtProvider jwtProvider;
@@ -45,6 +47,7 @@ public class AuthService {
         if (recruit == null) {
             String passwordHash = passwordEncoder.encode(reqDto.password());
             Recruit createdRecruit = Recruit.create(reqDto.name(), reqDto.phone(), passwordHash);
+            log.info("Created By recSeq : {}", createdRecruit.getRecSeq());
             return generateLoginInfo(createdRecruit);
         }
 
@@ -56,6 +59,8 @@ public class AuthService {
             throw new CustomException(ResponseCode.CONFLICT);
         }
 
+        log.info("Login By recSeq : {}", recruit.getRecSeq());
+
         return generateLoginInfo(recruit);
     }
 
@@ -66,6 +71,8 @@ public class AuthService {
         Recruit recruit = recruitRepository.findById(recSeq).orElseThrow(
                 () -> new CustomException(ResponseCode.UNAUTHORIZED)
         );
+        log.info("Refresh By recSeq : {}", recruit.getRecSeq());
+
         return generateLoginInfo(recruit);
     }
 }
