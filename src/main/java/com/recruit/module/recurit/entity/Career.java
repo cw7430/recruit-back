@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Entity
@@ -57,5 +58,32 @@ public class Career {
                 career.getEndPeriod(),
                 career.getTask()
         )).toList();
+    }
+
+    public static String calculateTotalCareerInfo(List<Career> careerList) {
+        long totalMonths = careerList.stream()
+                .mapToLong(career -> {
+                    LocalDate start = career.getStartPeriod();
+                    LocalDate end = career.getEndPeriod();
+
+                    if (start == null || end == null || start.isAfter(end)) {
+                        return 0;
+                    }
+                    return ChronoUnit.MONTHS.between(start, end);
+                })
+                .sum();
+
+        if (totalMonths <= 0) {
+            return "경력 없음";
+        }
+
+        long years = totalMonths / 12;
+        long months = totalMonths % 12;
+
+        if (years > 0) {
+            return String.format("경력 %d년 %02d개월", years, months);
+        } else {
+            return String.format("경력 %d개월", months);
+        }
     }
 }

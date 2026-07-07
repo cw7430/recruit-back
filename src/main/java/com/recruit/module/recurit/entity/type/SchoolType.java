@@ -23,7 +23,7 @@ public enum SchoolType {
         } catch (IllegalArgumentException e) {
             throw new CustomException(
                     ResponseCode.VALIDATION_ERROR,
-                    "submit",
+                    "schoolType",
                     "입력 가능값: HIGH_SCHOOL, ASSOCIATE, BACHELOR, MASTER, DOCTORATE, 입력된 값: " + value
             );
         }

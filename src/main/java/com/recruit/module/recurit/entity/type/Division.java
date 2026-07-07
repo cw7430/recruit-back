@@ -23,7 +23,7 @@ public enum Division {
         } catch (IllegalArgumentException e) {
             throw new CustomException(
                     ResponseCode.VALIDATION_ERROR,
-                    "gender",
+                    "division",
                     "입력 가능값: GRADUATED, ENROLLED, DROPPED_OUT, 입력된 값: " + value
             );
         }

@@ -46,7 +46,9 @@ public class AuthService {
 
         if (recruit == null) {
             String passwordHash = passwordEncoder.encode(reqDto.password());
-            Recruit createdRecruit = Recruit.create(reqDto.name(), reqDto.phone(), passwordHash);
+            Recruit createdRecruit = recruitRepository.save(
+                    Recruit.create(reqDto.name(), reqDto.phone(), passwordHash)
+            );
             log.info("Created By recSeq : {}", createdRecruit.getRecSeq());
             return generateLoginInfo(createdRecruit);
         }
