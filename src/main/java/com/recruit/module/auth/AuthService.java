@@ -49,7 +49,7 @@ public class AuthService {
         }
 
         if (!passwordEncoder.matches(reqDto.password(), recruit.getPasswordHash())) {
-            throw new CustomException(ResponseCode.LOGIN_ERROR);
+            throw new CustomException(ResponseCode.PASSWORD_ERROR);
         }
 
         if ((Submit.Y.getValue()).equals(recruit.getSubmit().getValue())) {
