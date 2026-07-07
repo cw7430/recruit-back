@@ -77,12 +77,36 @@ public class Recruit {
     private List<Certificate> certificateList = new ArrayList<>();
 
     public static RecruitResponseDto toDto(Recruit recruit, List<LocationResponseDto> locationList) {
+        boolean isUpdated = (recruit.getBirth() != null)
+                && (recruit.getGender() != null)
+                && (recruit.getEmail() != null)
+                && (recruit.getAddress() != null)
+                && (recruit.getWorkType() != null);
+
         List<EducationResponseDto> educationList =
                 recruit.getEducationList().isEmpty() ? null : Education.toDtoList(recruit.getEducationList());
         List<CareerResponseDto> careerList =
                 recruit.getCareerList().isEmpty() ? null : Career.toDtoList(recruit.getCareerList());
         List<CertificateResponseDto> certificateList =
                 recruit.getCertificateList().isEmpty() ? null : Certificate.toDtoList(recruit.getCertificateList());
+
+        String eduInfo = educationList == null ? null : Education.determineFinalEduInfo(recruit.getEducationList());
+        String carInfo = careerList == null ? null : Career.calculateTotalCareerInfo(recruit.getCareerList());
+        String hopeSal = isUpdated ? "회사 내규에 따름." : null;
+        String hopeLoc = recruit.getLocation() == null ? null : (recruit.getLocation().getLocName() + " 전체");
+        String workType = isUpdated ? switch (recruit.getWorkType()) {
+            case FULL_TIME -> "정규직";
+            case NON_REGULAR -> "계약직";
+        } : null;
+
+        RecruitCalculateResponseDto calculate = isUpdated ? RecruitCalculateResponseDto.builder()
+                .eduInfo(eduInfo)
+                .carInfo(carInfo)
+                .hopeSal(hopeSal)
+                .hopeLoc(hopeLoc)
+                .workType(workType)
+                .build() : null;
+
         return new RecruitResponseDto(
                 recruit.getRecSeq(),
                 recruit.getName(),
@@ -96,6 +120,7 @@ public class Recruit {
                 educationList,
                 careerList,
                 certificateList,
+                calculate,
                 locationList
         );
     }

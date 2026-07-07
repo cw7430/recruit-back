@@ -78,7 +78,7 @@ public class AuthController {
 
     @PostMapping("/refresh")
     @Operation(summary = "토큰 재발급")
-    @SecurityRequirement(name = "RefreshToken")
+    @SecurityRequirement(name = "refresh-token")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "재발급 성공", content = {

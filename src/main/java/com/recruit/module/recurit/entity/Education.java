@@ -13,6 +13,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -64,16 +65,43 @@ public class Education {
     private Location location = null;
 
     public static List<EducationResponseDto> toDtoList(List<Education> educationList) {
-        return educationList.stream().map(education -> new EducationResponseDto(
-                education.getEduSeq(),
-                education.getSchoolName(),
-                education.getSchoolType(),
-                education.getDivision(),
-                education.getStartPeriod(),
-                education.getEndPeriod(),
-                education.getMajor(),
-                education.getGrade(),
-                education.getLocation().getLocSeq()
-        )).toList();
+        return educationList.stream().map(education -> {
+            return new EducationResponseDto(
+                    education.getEduSeq(),
+                    education.getSchoolName(),
+                    education.getSchoolType(),
+                    education.getDivision(),
+                    education.getStartPeriod(),
+                    education.getEndPeriod(),
+                    education.getMajor(),
+                    education.getGrade(),
+                    education.getLocation().getLocSeq()
+            );
+        }).toList();
+    }
+
+    public static String determineFinalEduInfo(List<Education> educationList) {
+        return educationList.stream()
+                .filter(edu -> edu.getSchoolType() == SchoolType.HIGH_SCHOOL
+                        || edu.getDivision() != Division.DROPPED_OUT)
+                .max(Comparator.comparing(Education::getSchoolType))
+                .map(finalEdu -> {
+                    String typeText = switch (finalEdu.getSchoolType()) {
+                        case HIGH_SCHOOL -> "고등학교";
+                        case ASSOCIATE -> "전문대학교";
+                        case BACHELOR -> "대학교";
+                        case MASTER -> "대학원(석사)";
+                        case DOCTORATE -> "대학원(박사)";
+                    };
+
+                    String divisionText = switch (finalEdu.getDivision()) {
+                        case GRADUATED -> "졸업";
+                        case ENROLLED -> "재학";
+                        case DROPPED_OUT -> "중퇴";
+                    };
+
+                    return typeText + " " + divisionText;
+                })
+                .orElse("학력 정보 없음");
     }
 }

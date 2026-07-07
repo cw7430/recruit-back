@@ -24,7 +24,7 @@ public class RecruitController {
     private final RecruitService recruitService;
 
     @GetMapping
-    @SecurityRequirement(name = "AccessToken")
+    @SecurityRequirement(name = "access-token")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "조회 성공", content = {

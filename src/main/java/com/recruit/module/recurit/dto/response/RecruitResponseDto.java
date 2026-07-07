@@ -50,6 +50,9 @@ public class RecruitResponseDto {
     @Schema(description = "자격증 사항", nullable = true)
     private List<CertificateResponseDto> certificateList;
 
+    @Schema(description = "총계", nullable = true)
+    private RecruitCalculateResponseDto calculate = null;
+
     @Schema(description = "지역 리스트")
     private List<LocationResponseDto> locationList;
 }
