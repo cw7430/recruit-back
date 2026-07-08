@@ -99,13 +99,9 @@ public class Recruit {
             case NON_REGULAR -> "계약직";
         } : null;
 
-        RecruitCalculateResponseDto calculate = isUpdated ? RecruitCalculateResponseDto.builder()
-                .eduInfo(eduInfo)
-                .carInfo(carInfo)
-                .hopeSal(hopeSal)
-                .hopeLoc(hopeLoc)
-                .workType(workType)
-                .build() : null;
+        RecruitCalculateResponseDto calculate = isUpdated ? new RecruitCalculateResponseDto(
+                eduInfo, carInfo, hopeSal, hopeLoc, workType
+        ) : null;
 
         return new RecruitResponseDto(
                 recruit.getRecSeq(),

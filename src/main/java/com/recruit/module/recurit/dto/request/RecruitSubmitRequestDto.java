@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,7 +50,8 @@ public class RecruitSubmitRequestDto {
     private Submit submit;
 
     @Valid
-    @Schema(description = "학력 사항", nullable = true)
+    @NotEmpty(message = "학력사항은 최소한 1개 이상 들어가야 합니다.")
+    @Schema(description = "학력 사항")
     private List<EducationRequestDto> educationList;
 
     @Valid

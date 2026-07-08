@@ -89,28 +89,18 @@ public class AuthController {
             }
             ),
             @ApiResponse(
-                    responseCode = "401", description = "인증 오류", content = {
-                    @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponseDoc.Unauthorized.class)
-                    )
-            }
-            ),
-            @ApiResponse(
-                    responseCode = "401", description = "만료된 토큰", content = {
-                    @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponseDoc.ExpiredToken.class)
-                    )
-            }
-            ),
-            @ApiResponse(
-                    responseCode = "401", description = "잘못된 토큰", content = {
-                    @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponseDoc.InvalidToken.class)
-                    )
-            }
+                    responseCode = "401",
+                    description = "인증 오류 (인증 실패 / 토큰 만료 / 잘못된 토큰)",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(anyOf = {
+                                            ErrorResponseDoc.Unauthorized.class,
+                                            ErrorResponseDoc.ExpiredToken.class,
+                                            ErrorResponseDoc.InvalidToken.class
+                                    })
+                            )
+                    }
             ),
             @ApiResponse(
                     responseCode = "403", description = "권한 오류", content = {

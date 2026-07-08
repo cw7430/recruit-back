@@ -65,19 +65,17 @@ public class Education {
     private Location location = null;
 
     public static List<EducationResponseDto> toDtoList(List<Education> educationList) {
-        return educationList.stream().map(education -> {
-            return new EducationResponseDto(
-                    education.getEduSeq(),
-                    education.getSchoolName(),
-                    education.getSchoolType(),
-                    education.getDivision(),
-                    education.getStartPeriod(),
-                    education.getEndPeriod(),
-                    education.getMajor(),
-                    education.getGrade(),
-                    education.getLocation().getLocSeq()
-            );
-        }).toList();
+        return educationList.stream().map(education -> new EducationResponseDto(
+                education.getEduSeq(),
+                education.getSchoolName(),
+                education.getSchoolType(),
+                education.getDivision(),
+                education.getStartPeriod(),
+                education.getEndPeriod(),
+                education.getMajor(),
+                education.getGrade(),
+                education.getLocation().getLocSeq()
+        )).toList();
     }
 
     public static String determineFinalEduInfo(List<Education> educationList) {

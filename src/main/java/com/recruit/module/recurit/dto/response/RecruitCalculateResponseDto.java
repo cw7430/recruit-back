@@ -2,11 +2,9 @@ package com.recruit.module.recurit.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 @AllArgsConstructor
 public class RecruitCalculateResponseDto {
     @Schema(description = "학력사항", example = "대학교 졸업", nullable = true)
