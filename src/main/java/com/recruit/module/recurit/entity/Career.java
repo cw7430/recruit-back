@@ -1,6 +1,7 @@
 package com.recruit.module.recurit.entity;
 
 import com.recruit.module.recurit.dto.response.CareerResponseDto;
+import com.recruit.module.recurit.dto.vo.CareerVo;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -48,6 +49,17 @@ public class Career {
 
     @Column(name = "TASK", nullable = false)
     private String task;
+
+    public static List<CareerVo> toVoList(List<Career> careerList) {
+        return careerList.stream().map(career -> new CareerVo(
+                career.getCarSeq(),
+                career.getCompName(),
+                null,
+                career.getStartPeriod(),
+                career.getEndPeriod(),
+                career.getTask()
+        )).toList();
+    }
 
     public static List<CareerResponseDto> toDtoList(List<Career> careerList) {
         return careerList.stream().map(career -> new CareerResponseDto(

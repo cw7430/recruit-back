@@ -1,5 +1,6 @@
 package com.recruit.module.recurit.dto.request;
 
+import com.recruit.module.recurit.dto.vo.EducationVo;
 import com.recruit.module.recurit.entity.type.Division;
 import com.recruit.module.recurit.entity.type.SchoolType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -62,5 +64,19 @@ public class EducationRequestDto {
             return true;
         }
         return startPeriod.isBefore(endPeriod) || startPeriod.isEqual(endPeriod);
+    }
+
+    public static List<EducationVo> toVoList(List<EducationRequestDto> educationList) {
+        return educationList.stream().map(education -> new EducationVo(
+                education.getEduSeq(),
+                education.getSchoolName(),
+                education.getSchoolType(),
+                education.getDivision(),
+                education.getStartPeriod(),
+                education.getEndPeriod(),
+                education.getMajor(),
+                education.getGrade(),
+                education.getLocSeq()
+        )).toList();
     }
 }
