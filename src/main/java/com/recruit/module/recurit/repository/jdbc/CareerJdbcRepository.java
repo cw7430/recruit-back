@@ -1,6 +1,6 @@
 package com.recruit.module.recurit.repository.jdbc;
 
-import com.recruit.module.recurit.dto.request.CareerRequestDto;
+import com.recruit.module.recurit.dto.vo.CareerVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class CareerJdbcRepository implements BatchJdbcRepository<CareerRequestDto> {
+public class CareerJdbcRepository implements BatchJdbcRepository<CareerVo> {
     private final JdbcTemplate jdbcTemplate;
 
     private static int batchReturn(int[][] counts) {
@@ -21,7 +21,7 @@ public class CareerJdbcRepository implements BatchJdbcRepository<CareerRequestDt
     }
 
     @Override
-    public int batchInsert(List<CareerRequestDto> list, Long parentId) {
+    public int batchInsert(List<CareerVo> list, Long parentId) {
 
         if (list == null || list.isEmpty()) {
             return 0;
@@ -42,13 +42,13 @@ public class CareerJdbcRepository implements BatchJdbcRepository<CareerRequestDt
                 sql,
                 list,
                 list.size(),
-                (PreparedStatement ps, CareerRequestDto dto) -> {
+                (PreparedStatement ps, CareerVo vo) -> {
                     ps.setLong(1, parentId);
-                    ps.setString(2, dto.getCompName());
-                    ps.setLong(3, dto.getLocSeq());
-                    ps.setDate(4, java.sql.Date.valueOf(dto.getStartPeriod()));
-                    ps.setDate(5, java.sql.Date.valueOf(dto.getEndPeriod()));
-                    ps.setString(6, dto.getTask());
+                    ps.setString(2, vo.getCompName());
+                    ps.setLong(3, vo.getLocSeq());
+                    ps.setDate(4, java.sql.Date.valueOf(vo.getStartPeriod()));
+                    ps.setDate(5, java.sql.Date.valueOf(vo.getEndPeriod()));
+                    ps.setString(6, vo.getTask());
                 }
         );
 
@@ -56,7 +56,7 @@ public class CareerJdbcRepository implements BatchJdbcRepository<CareerRequestDt
     }
 
     @Override
-    public int batchUpdate(List<CareerRequestDto> list) {
+    public int batchUpdate(List<CareerVo> list) {
         if (list == null || list.isEmpty()) {
             return 0;
         }
@@ -73,13 +73,13 @@ public class CareerJdbcRepository implements BatchJdbcRepository<CareerRequestDt
                 sql,
                 list,
                 list.size(),
-                (PreparedStatement ps, CareerRequestDto dto) -> {
-                    ps.setString(1, dto.getCompName());
-                    ps.setLong(2, dto.getLocSeq());
-                    ps.setDate(3, java.sql.Date.valueOf(dto.getStartPeriod()));
-                    ps.setDate(4, java.sql.Date.valueOf(dto.getEndPeriod()));
-                    ps.setString(5, dto.getTask());
-                    ps.setLong(6, dto.getCarSeq());
+                (PreparedStatement ps, CareerVo vo) -> {
+                    ps.setString(1, vo.getCompName());
+                    ps.setLong(2, vo.getLocSeq());
+                    ps.setDate(3, java.sql.Date.valueOf(vo.getStartPeriod()));
+                    ps.setDate(4, java.sql.Date.valueOf(vo.getEndPeriod()));
+                    ps.setString(5, vo.getTask());
+                    ps.setLong(6, vo.getCarSeq());
                 }
         );
 

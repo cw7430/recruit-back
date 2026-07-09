@@ -8,21 +8,30 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
 @AllArgsConstructor
-public class EducationVo implements SequentialVo {
-    private Long eduSeq;
-    private String schoolName;
-    private SchoolType schoolType;
-    private Division division;
+public class EducationVo implements PeriodVo {
+    private @Getter Long eduSeq;
+    private @Getter String schoolName;
+    private @Getter SchoolType schoolType;
+    private @Getter Division division;
     private LocalDate startPeriod;
     private LocalDate endPeriod;
-    private String major;
-    private BigDecimal grade;
-    private Long locSeq;
+    private @Getter String major;
+    private @Getter BigDecimal grade;
+    private @Getter Long locSeq;
 
     @Override
     public Long getSequence() {
         return eduSeq;
+    }
+
+    @Override
+    public LocalDate getStartPeriod() {
+        return startPeriod;
+    }
+
+    @Override
+    public LocalDate getEndPeriod() {
+        return endPeriod;
     }
 }

@@ -4,17 +4,17 @@ import com.recruit.common.api.doc.error.ErrorResponseDoc;
 import com.recruit.common.api.response.ResponseDto;
 import com.recruit.common.api.response.SuccessResponseDto;
 import com.recruit.module.recurit.doc.RecruitSuccessResponseDoc;
+import com.recruit.module.recurit.dto.request.RecruitSubmitRequestDto;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/recruit")
@@ -49,14 +49,6 @@ public class RecruitController {
                     }
             ),
             @ApiResponse(
-                    responseCode = "407", description = "제출 오류", content = {
-                    @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponseDoc.Conflict.class)
-                    )
-            }
-            ),
-            @ApiResponse(
                     responseCode = "404", description = "존재 오류", content = {
                     @Content(
                             mediaType = "application/json",
@@ -75,5 +67,60 @@ public class RecruitController {
     })
     public ResponseEntity<ResponseDto> getRecruit() {
         return ResponseEntity.ok(SuccessResponseDto.okWith(recruitService.getRecruit()));
+    }
+
+    @PostMapping
+    @SecurityRequirement(name = "access-token")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "조회 성공", content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = RecruitSuccessResponseDoc.class)
+                    )
+            }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "입력값 오류", content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDoc.BadRequest.class)
+                    )
+            }
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "인증 오류 (인증 실패 / 토큰 만료 / 잘못된 토큰)",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(anyOf = {
+                                            ErrorResponseDoc.Unauthorized.class,
+                                            ErrorResponseDoc.ExpiredToken.class,
+                                            ErrorResponseDoc.InvalidToken.class
+                                    })
+                            )
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "404", description = "존재 오류", content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDoc.ResourceNotFound.class)
+                    )
+            }
+            ),
+            @ApiResponse(
+                    responseCode = "500", description = "서버 오류", content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDoc.InternalServerError.class)
+                    )
+            }
+            )
+    })
+    public ResponseEntity<ResponseDto> recruitAction(@RequestBody @Valid RecruitSubmitRequestDto reqDto) {
+        recruitService.recruitAction(reqDto);
+        return ResponseEntity.ok(SuccessResponseDto.ok());
     }
 }

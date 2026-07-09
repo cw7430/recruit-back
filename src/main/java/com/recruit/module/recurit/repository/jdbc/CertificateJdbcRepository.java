@@ -1,6 +1,6 @@
 package com.recruit.module.recurit.repository.jdbc;
 
-import com.recruit.module.recurit.dto.request.CertificateRequestDto;
+import com.recruit.module.recurit.dto.vo.CertificateVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class CertificateJdbcRepository implements BatchJdbcRepository<CertificateRequestDto> {
+public class CertificateJdbcRepository implements BatchJdbcRepository<CertificateVo> {
     private final JdbcTemplate jdbcTemplate;
 
     private static int batchReturn(int[][] counts) {
@@ -21,7 +21,7 @@ public class CertificateJdbcRepository implements BatchJdbcRepository<Certificat
     }
 
     @Override
-    public int batchInsert(List<CertificateRequestDto> list, Long parentId) {
+    public int batchInsert(List<CertificateVo> list, Long parentId) {
         if(list == null || list.isEmpty()) {
             return 0;
         }
@@ -40,11 +40,11 @@ public class CertificateJdbcRepository implements BatchJdbcRepository<Certificat
                 sql,
                 list,
                 list.size(),
-                (PreparedStatement ps, CertificateRequestDto dto) -> {
+                (PreparedStatement ps, CertificateVo vo) -> {
                     ps.setLong(1, parentId);
-                    ps.setString(2, dto.getQualifyName());
-                    ps.setDate(3, java.sql.Date.valueOf(dto.getAcquDate()));
-                    ps.setString(4, dto.getOrganizeName());
+                    ps.setString(2, vo.getQualifyName());
+                    ps.setDate(3, java.sql.Date.valueOf(vo.getAcquDate()));
+                    ps.setString(4, vo.getOrganizeName());
                 }
         );
 
@@ -52,7 +52,7 @@ public class CertificateJdbcRepository implements BatchJdbcRepository<Certificat
     }
 
     @Override
-    public int batchUpdate(List<CertificateRequestDto> list) {
+    public int batchUpdate(List<CertificateVo> list) {
         if(list == null || list.isEmpty()) {
             return 0;
         }
@@ -71,11 +71,11 @@ public class CertificateJdbcRepository implements BatchJdbcRepository<Certificat
                 sql,
                 list,
                 list.size(),
-                (PreparedStatement ps, CertificateRequestDto dto) -> {
-                    ps.setString(1, dto.getQualifyName());
-                    ps.setDate(2, java.sql.Date.valueOf(dto.getAcquDate()));
-                    ps.setString(3, dto.getOrganizeName());
-                    ps.setLong(4, dto.getCertSeq());
+                (PreparedStatement ps, CertificateVo vo) -> {
+                    ps.setString(1, vo.getQualifyName());
+                    ps.setDate(2, java.sql.Date.valueOf(vo.getAcquDate()));
+                    ps.setString(3, vo.getOrganizeName());
+                    ps.setLong(4, vo.getCertSeq());
                 }
         );
 
