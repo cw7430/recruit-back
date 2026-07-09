@@ -2,6 +2,7 @@ package com.recruit.module.recurit.entity;
 
 
 import com.recruit.module.recurit.dto.response.EducationResponseDto;
+import com.recruit.module.recurit.dto.vo.EducationVo;
 import com.recruit.module.recurit.entity.type.Division;
 import com.recruit.module.recurit.entity.type.SchoolType;
 import jakarta.persistence.*;
@@ -63,6 +64,20 @@ public class Education {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOC_SEQ", nullable = false, foreignKey = @ForeignKey(name = "FK_LOCATION_TO_EDUCATION_1"))
     private Location location = null;
+
+    public static List<EducationVo> toVoList(List<Education> educationList) {
+        return educationList.stream().map(education -> new EducationVo(
+                education.getEduSeq(),
+                education.getSchoolName(),
+                education.getSchoolType(),
+                education.getDivision(),
+                education.getStartPeriod(),
+                education.getEndPeriod(),
+                education.getMajor(),
+                education.getGrade(),
+                null
+        )).toList();
+    }
 
     public static List<EducationResponseDto> toDtoList(List<Education> educationList) {
         return educationList.stream().map(education -> new EducationResponseDto(

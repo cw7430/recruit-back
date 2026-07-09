@@ -1,5 +1,6 @@
 package com.recruit.module.recurit.dto.request;
 
+import com.recruit.module.recurit.dto.vo.CareerVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -43,5 +45,16 @@ public class CareerRequestDto {
             return true;
         }
         return startPeriod.isBefore(endPeriod) || startPeriod.isEqual(endPeriod);
+    }
+
+    public static List<CareerVo> toVoList(List<CareerRequestDto> careerList) {
+        return careerList.stream().map(career -> new CareerVo(
+                career.getCarSeq(),
+                career.getCompName(),
+                career.getLocSeq(),
+                career.getStartPeriod(),
+                career.getEndPeriod(),
+                career.getTask()
+        )).toList();
     }
 }

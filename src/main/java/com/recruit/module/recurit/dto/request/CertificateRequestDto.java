@@ -1,5 +1,6 @@
 package com.recruit.module.recurit.dto.request;
 
+import com.recruit.module.recurit.dto.vo.CertificateVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -30,4 +32,13 @@ public class CertificateRequestDto {
     @Pattern(regexp = "^[가-힣a-zA-Z0-9\\s-]+$", message = "발행기관명 형식이 올바르지 않습니다.")
     @Schema(description = "발행기관명", example = "한국산업인력공단")
     private String organizeName;
+
+    public static List<CertificateVo> toVoList(List<CertificateRequestDto> certificateList) {
+        return certificateList.stream().map(certificate -> new CertificateVo(
+                certificate.getCertSeq(),
+                certificate.getQualifyName(),
+                certificate.getAcquDate(),
+                certificate.getOrganizeName()
+        )).toList();
+    }
 }

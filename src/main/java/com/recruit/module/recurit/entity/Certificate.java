@@ -1,6 +1,7 @@
 package com.recruit.module.recurit.entity;
 
 import com.recruit.module.recurit.dto.response.CertificateResponseDto;
+import com.recruit.module.recurit.dto.vo.CertificateVo;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,15 @@ public class Certificate {
 
     @Column(name = "ORGANIZE_NAME", nullable = false)
     private String organizeName;
+
+    public static List<CertificateVo> toVoList(List<Certificate> certificateList) {
+        return certificateList.stream().map(certificate -> new CertificateVo(
+                certificate.getCertSeq(),
+                certificate.getQualifyName(),
+                certificate.getAcquDate(),
+                certificate.getOrganizeName()
+        )).toList();
+    }
 
     public static List<CertificateResponseDto> toDtoList(List<Certificate> certificateList) {
         return certificateList.stream().map(certificate -> new CertificateResponseDto(
