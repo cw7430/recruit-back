@@ -5,18 +5,28 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
-@Getter
+
 @AllArgsConstructor
-public class CareerVo implements SequentialVo {
-    private Long carSeq;
-    private String compName;
-    private Long locSeq;
+public class CareerVo implements PeriodVo {
+    private @Getter Long carSeq;
+    private @Getter String compName;
+    private @Getter Long locSeq;
     private LocalDate startPeriod;
     private LocalDate endPeriod;
-    private String task;
+    private @Getter String task;
 
     @Override
     public Long getSequence() {
         return carSeq;
+    }
+
+    @Override
+    public LocalDate getStartPeriod() {
+        return startPeriod;
+    }
+
+    @Override
+    public LocalDate getEndPeriod() {
+        return endPeriod;
     }
 }

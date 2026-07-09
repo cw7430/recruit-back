@@ -1,6 +1,6 @@
 package com.recruit.module.recurit.repository.jdbc;
 
-import com.recruit.module.recurit.dto.request.EducationRequestDto;
+import com.recruit.module.recurit.dto.vo.EducationVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class EducationJdbcRepository implements BatchJdbcRepository<EducationRequestDto> {
+public class EducationJdbcRepository implements BatchJdbcRepository<EducationVo> {
     private final JdbcTemplate jdbcTemplate;
 
     private static int batchReturn(int[][] counts) {
@@ -21,7 +21,7 @@ public class EducationJdbcRepository implements BatchJdbcRepository<EducationReq
     }
 
     @Override
-    public int batchInsert(List<EducationRequestDto> list, Long parentId) {
+    public int batchInsert(List<EducationVo> list, Long parentId) {
 
         if (list == null || list.isEmpty()) {
             return 0;
@@ -42,16 +42,16 @@ public class EducationJdbcRepository implements BatchJdbcRepository<EducationReq
                 sql,
                 list,
                 list.size(),
-                (PreparedStatement ps, EducationRequestDto dto) -> {
+                (PreparedStatement ps, EducationVo vo) -> {
                     ps.setLong(1, parentId);
-                    ps.setString(2, dto.getSchoolName());
-                    ps.setString(3, dto.getSchoolType().getValue());
-                    ps.setString(4, dto.getDivision().getValue());
-                    ps.setDate(5, java.sql.Date.valueOf(dto.getStartPeriod()));
-                    ps.setDate(6, java.sql.Date.valueOf(dto.getEndPeriod()));
-                    ps.setString(7, dto.getMajor());
-                    ps.setBigDecimal(8, dto.getGrade());
-                    ps.setLong(9, dto.getLocSeq());
+                    ps.setString(2, vo.getSchoolName());
+                    ps.setString(3, vo.getSchoolType().getValue());
+                    ps.setString(4, vo.getDivision().getValue());
+                    ps.setDate(5, java.sql.Date.valueOf(vo.getStartPeriod()));
+                    ps.setDate(6, java.sql.Date.valueOf(vo.getEndPeriod()));
+                    ps.setString(7, vo.getMajor());
+                    ps.setBigDecimal(8, vo.getGrade());
+                    ps.setLong(9, vo.getLocSeq());
                 }
         );
 
@@ -59,7 +59,7 @@ public class EducationJdbcRepository implements BatchJdbcRepository<EducationReq
     }
 
     @Override
-    public int batchUpdate(List<EducationRequestDto> list) {
+    public int batchUpdate(List<EducationVo> list) {
         if (list == null || list.isEmpty()) {
             return 0;
         }
@@ -79,16 +79,16 @@ public class EducationJdbcRepository implements BatchJdbcRepository<EducationReq
                 sql,
                 list,
                 list.size(),
-                (PreparedStatement ps, EducationRequestDto dto) -> {
-                    ps.setString(1, dto.getSchoolName());
-                    ps.setString(2, dto.getSchoolType().getValue());
-                    ps.setString(3, dto.getDivision().getValue());
-                    ps.setDate(4, java.sql.Date.valueOf(dto.getStartPeriod()));
-                    ps.setDate(5, java.sql.Date.valueOf(dto.getEndPeriod()));
-                    ps.setString(6, dto.getMajor());
-                    ps.setBigDecimal(7, dto.getGrade());
-                    ps.setLong(8, dto.getLocSeq());
-                    ps.setLong(9, dto.getEduSeq());
+                (PreparedStatement ps, EducationVo vo) -> {
+                    ps.setString(1, vo.getSchoolName());
+                    ps.setString(2, vo.getSchoolType().getValue());
+                    ps.setString(3, vo.getDivision().getValue());
+                    ps.setDate(4, java.sql.Date.valueOf(vo.getStartPeriod()));
+                    ps.setDate(5, java.sql.Date.valueOf(vo.getEndPeriod()));
+                    ps.setString(6, vo.getMajor());
+                    ps.setBigDecimal(7, vo.getGrade());
+                    ps.setLong(8, vo.getLocSeq());
+                    ps.setLong(9, vo.getEduSeq());
                 }
         );
 
