@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=Oracle;DEFAULT_NULL_ORDERING=HIGH
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+jwt:
+  access:
+    secret: test1test2test3test4test5test6test7test8test9test10test11
+    expiration: 30m
+  refresh:
+    secret: test11test10test9test8test7test6test5test4test3test2test1
+    expiration: 14d
+
+logging:
+  level:
+    p6spy: INFO
