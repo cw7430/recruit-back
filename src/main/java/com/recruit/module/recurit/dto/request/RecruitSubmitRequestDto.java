@@ -39,7 +39,7 @@ public class RecruitSubmitRequestDto {
 
     @NotNull(message = "희망지역을 입력해주세요.")
     @Schema(description = "주소 일련번호", example = "1")
-    private Long locSeq;
+    private String locSeq;
 
     @NotNull(message = "희망직무 입력해주세요.")
     @Schema(description = "희망 직무", example = "FULL_TIME")

@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CareerRequestDto {
     @Schema(description = "일련번호", example = "1", nullable = true)
-    private Long carSeq = null;
+    private String carSeq = null;
 
     @NotBlank(message = "회사명을 입력해주세요.")
     @Pattern(regexp = "^[가-힣a-zA-Z0-9\\s-]+$", message = "학교명 형식이 올바르지 않습니다.")
@@ -24,7 +24,7 @@ public class CareerRequestDto {
 
     @NotNull(message = "회사 지역을 입력해주세요.")
     @Schema(description = "지역 일련번호", example = "1")
-    private Long locSeq;
+    private String locSeq;
 
     @NotNull(message = "근무 시작일을 입력해주세요.")
     @PastOrPresent(message = "시작일은 미래 날짜일 수 없습니다.")
@@ -49,9 +49,9 @@ public class CareerRequestDto {
 
     public static List<CareerVo> toVoList(List<CareerRequestDto> careerList) {
         return careerList.stream().map(career -> new CareerVo(
-                career.getCarSeq(),
+                career.getCarSeq() == null ? null : Long.parseLong(career.getCarSeq()),
                 career.getCompName(),
-                career.getLocSeq(),
+                Long.parseLong(career.getLocSeq()),
                 career.getStartPeriod(),
                 career.getEndPeriod(),
                 career.getTask()

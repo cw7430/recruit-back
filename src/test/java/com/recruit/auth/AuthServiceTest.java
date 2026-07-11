@@ -8,10 +8,12 @@ import com.recruit.module.auth.dto.response.LoginResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@Transactional
 public class AuthServiceTest extends BaseIntegrationTest {
     @Autowired
     private AuthService authService;
@@ -20,7 +22,7 @@ public class AuthServiceTest extends BaseIntegrationTest {
     @DisplayName("최초 지원자는 자동 생성된다")
     public void createUser() {
         LoginRequestDto data = new LoginRequestDto(
-                "테스트",
+                "테스트2",
                 "010-0000-0000",
                 "password1234!"
         );
@@ -40,15 +42,7 @@ public class AuthServiceTest extends BaseIntegrationTest {
                 "password1234!"
         );
 
-        authService.login(data);
-
-        LoginRequestDto correctData = new LoginRequestDto(
-                "테스트",
-                "010-0000-0000",
-                "password1234!"
-        );
-
-        LoginResponseDto resDto = authService.login(correctData);
+        LoginResponseDto resDto = authService.login(data);
 
         assertThat(resDto.accessToken()).isNotBlank();
         assertThat(resDto.refreshToken()).isNotBlank();
@@ -60,17 +54,23 @@ public class AuthServiceTest extends BaseIntegrationTest {
         LoginRequestDto data = new LoginRequestDto(
                 "테스트",
                 "010-0000-0000",
-                "password1234!"
+                "password1234"
         );
-        authService.login(data);
 
-        LoginRequestDto wrongData = new LoginRequestDto(
-                "테스트",
+        assertThatThrownBy(() -> authService.login(data))
+                .isInstanceOf(CustomException.class);
+    }
+
+    @Test
+    @DisplayName("이미 지원 완료된 사용자가 로그인 시도시 예외가 발생한다.")
+    public void loginFailWithSubmittedUser() {
+        LoginRequestDto data = new LoginRequestDto(
+                "지원완료",
                 "010-0000-0000",
                 "password1234"
         );
 
-        assertThatThrownBy(() -> authService.login(wrongData))
+        assertThatThrownBy(() -> authService.login(data))
                 .isInstanceOf(CustomException.class);
     }
 }

@@ -50,7 +50,7 @@ public class RecruitService {
         Long recSeq = jwtUtil.getCurrentUserId();
         Recruit recruit = recruitRepository.findById(recSeq)
                 .orElseThrow(() -> new CustomException(ResponseCode.RESOURCE_NOT_FOUND));
-        Location recruitLocation = locationRepository.findById(reqDto.getLocSeq())
+        Location recruitLocation = locationRepository.findById(Long.parseLong(reqDto.getLocSeq()))
                 .orElseThrow(() -> new CustomException(ResponseCode.RESOURCE_NOT_FOUND));
         recruit.updateInfo(
                 reqDto.getBirth(),
@@ -78,7 +78,7 @@ public class RecruitService {
 
         List<EducationVo> newEducationList =
                 reqDto.getEducationList().isEmpty() ? List.of() :
-                EducationRequestDto.toVoList(reqDto.getEducationList());
+                        EducationRequestDto.toVoList(reqDto.getEducationList());
 
         if (oldEducationList.isEmpty() && newEducationList.isEmpty()) {
             return;
@@ -178,7 +178,7 @@ public class RecruitService {
 
     private static <T extends PeriodVo> boolean periodValidator(List<T> insertList, List<T> updateList) {
         List<T> mergedList = Stream.concat(insertList.stream(), updateList.stream())
-                        .sorted(Comparator.comparing(T::getStartPeriod)).toList();
+                .sorted(Comparator.comparing(T::getStartPeriod)).toList();
 
         for (int i = 1; i < mergedList.size(); i++) {
             T previous = mergedList.get(i - 1);

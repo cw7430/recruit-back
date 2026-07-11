@@ -5,6 +5,8 @@ import com.recruit.module.recurit.entity.type.SchoolType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,7 +14,8 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 public class EducationResponseDto {
-    @Schema(description = "일련번호", example = "1")
+    @JsonSerialize(using = ToStringSerializer.class)
+    @Schema(description = "일련번호", example = "1", type = "string")
     private Long eduSeq;
 
     @Schema(description = "이름", example = "익명대학교")
@@ -36,6 +39,7 @@ public class EducationResponseDto {
     @Schema(description = "학점", example = "4.5")
     private BigDecimal grade;
 
-    @Schema(description = "지역 일련번호", example = "1")
+    @JsonSerialize(using = ToStringSerializer.class)
+    @Schema(description = "지역 일련번호", example = "1", type = "string")
     private Long locSeq;
 }

@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CertificateRequestDto {
     @Schema(description = "일련번호", example = "1", nullable = true)
-    private Long certSeq = null;
+    private String certSeq = null;
 
     @NotBlank(message = "자격증명을 입력해주세요.")
     @Pattern(regexp = "^[가-힣a-zA-Z0-9\\s-]+$", message = "자격증명 형식이 올바르지 않습니다.")
@@ -35,7 +35,7 @@ public class CertificateRequestDto {
 
     public static List<CertificateVo> toVoList(List<CertificateRequestDto> certificateList) {
         return certificateList.stream().map(certificate -> new CertificateVo(
-                certificate.getCertSeq(),
+                certificate.getCertSeq() == null ? null : Long.parseLong(certificate.getCertSeq()),
                 certificate.getQualifyName(),
                 certificate.getAcquDate(),
                 certificate.getOrganizeName()
