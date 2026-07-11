@@ -7,6 +7,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        use_sql_comments: true
+#        highlight_sql: true
+#        type: trace
     defer-datasource-initialization: true
   h2:
     console:
@@ -25,4 +32,5 @@ jwt:
 
 logging:
   level:
-    p6spy: INFO
+#    org.hibernate.orm.jdbc.bind: trace
+    p6spy: Info

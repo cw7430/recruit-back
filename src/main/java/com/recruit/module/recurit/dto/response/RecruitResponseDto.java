@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecruitResponseDto {
-    @Schema(description = "일련번호", example = "1")
+    @JsonSerialize(using = ToStringSerializer.class)
+    @Schema(description = "일련번호", example = "1", type = "string")
     private Long recSeq;
 
     @Schema(description = "이름", example = "홍길동")
@@ -35,7 +38,8 @@ public class RecruitResponseDto {
     @Schema(description = "거주지", example = "서울특별시 용산구", nullable = true)
     private String address = null;
 
-    @Schema(description = "주소 일련번호", example = "1", nullable = true)
+    @JsonSerialize(using = ToStringSerializer.class)
+    @Schema(description = "주소 일련번호", example = "1", nullable = true, type = "string")
     private Long locSeq = null;
 
     @Schema(description = "희망 직무", example = "FULL_TIME", nullable = true)

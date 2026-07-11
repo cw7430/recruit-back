@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class EducationRequestDto {
     @Schema(description = "일련번호", example = "1", nullable = true)
-    private Long eduSeq = null;
+    private String eduSeq = null;
 
     @NotBlank(message = "학교명을 입력해주세요.")
     @Pattern(regexp = "^[가-힣a-zA-Z0-9\\s-]+$", message = "학교명 형식이 올바르지 않습니다.")
@@ -56,7 +56,7 @@ public class EducationRequestDto {
 
     @NotNull(message = "학교 지역을 입력해주세요.")
     @Schema(description = "지역 일련번호", example = "1")
-    private Long locSeq;
+    private String locSeq;
 
     @AssertTrue(message = "입학일은 졸업일보다 빨라야 합니다.")
     public boolean isPeriodValid() {
@@ -68,7 +68,7 @@ public class EducationRequestDto {
 
     public static List<EducationVo> toVoList(List<EducationRequestDto> educationList) {
         return educationList.stream().map(education -> new EducationVo(
-                education.getEduSeq(),
+                education.getEduSeq() == null ? null : Long.parseLong(education.getEduSeq()),
                 education.getSchoolName(),
                 education.getSchoolType(),
                 education.getDivision(),
@@ -76,7 +76,7 @@ public class EducationRequestDto {
                 education.getEndPeriod(),
                 education.getMajor(),
                 education.getGrade(),
-                education.getLocSeq()
+                Long.parseLong(education.getLocSeq())
         )).toList();
     }
 }
